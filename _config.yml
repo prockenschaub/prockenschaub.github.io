@@ -80,9 +80,9 @@ analytics:
 
 # Site Author
 author:
-  name             : "Patrick Rockenschaub"
+  name             : 
   avatar           : "portrait.jpg"
-  bio              : "A. v. Humboldt postdoctoral fellow"
+  bio              : &description
   location         : "Berlin, Germany"
   employer         :
   pubmed           : 
