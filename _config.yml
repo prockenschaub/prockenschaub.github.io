@@ -7,11 +7,11 @@
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Your Name / Site Title"
+title                    : "Patrick Rockenschaub"
 title_separator          : "-"
 name                     : &name "Patrick Rockenschaub"
-description              : &description "A.v.Humboldt postdoctoral fellow"
-url                      : https://prockenschaub.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+description              : &description "Postdoctoral Fellow | "
+url                      : "https://prockenschaub.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "prockenschaub/prockenschaub.github.io"
 teaser                   :  # filename of teaser fallback teaser image placed in /images/, .e.g. "500x300.png"
