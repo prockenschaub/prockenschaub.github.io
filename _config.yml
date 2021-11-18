@@ -10,7 +10,7 @@ locale                   : "en-US"
 title                    : &name "Patrick Rockenschaub"
 title_separator          : "-"
 name                     : 
-description              : &description "Postdoctoral Fellow | "
+description              : &description "Postdoc @ Charité Lab for AI in Medicin"
 url                      : "https://prockenschaub.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "prockenschaub/prockenschaub.github.io"
@@ -82,7 +82,7 @@ analytics:
 author:
   name             : 
   avatar           : "portrait.jpg"
-  bio              : site.description
+  bio              : "postdoctoral fellow | med stats enthusiast | learning machine learner | dad"
   location         : "Berlin, Germany"
   employer         :
   pubmed           : 
