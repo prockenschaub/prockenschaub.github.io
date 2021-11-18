@@ -82,7 +82,7 @@ analytics:
 author:
   name             : 
   avatar           : "portrait.jpg"
-  bio              : &description
+  bio              : "&description"
   location         : "Berlin, Germany"
   employer         :
   pubmed           : 
