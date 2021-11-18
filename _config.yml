@@ -7,9 +7,9 @@
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Patrick Rockenschaub"
+title                    : &name "Patrick Rockenschaub"
 title_separator          : "-"
-name                     : &name "Patrick Rockenschaub"
+name                     : 
 description              : &description "Postdoctoral Fellow | "
 url                      : "https://prockenschaub.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
@@ -81,9 +81,9 @@ analytics:
 # Site Author
 author:
   name             : "Patrick Rockenschaub"
-  avatar           : "profile.png"
-  bio              : "A.v.Humboldt postdoctoral fellow"
-  location         : "Berlin"
+  avatar           : "portrait.jpg"
+  bio              : "A. v. Humboldt postdoctoral fellow"
+  location         : "Berlin, Germany"
   employer         :
   pubmed           : 
   googlescholar    : "https://scholar.google.com/citations?user=1BEClqkAAAAJ&hl=en"
@@ -109,7 +109,7 @@ author:
   stackoverflow    : # http://stackoverflow.com/users/123456/username
   steam            :
   tumblr           :
-  twitter          : "https://twitter.com/p_rocken"
+  twitter          : "p_rocken"
   vine             :
   weibo            :
   xing             :
