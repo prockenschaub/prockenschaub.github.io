@@ -7,11 +7,11 @@
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Your Name / Site Title"
+title                    : &name "Patrick Rockenschaub"
 title_separator          : "-"
-name                     : &name "Patrick Rockenschaub"
-description              : &description "A.v.Humboldt postdoctoral fellow"
-url                      : https://prockenschaub.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+name                     : 
+description              : &description "Postdoc @ Charité Lab for AI in Medicin"
+url                      : "https://prockenschaub.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "prockenschaub/prockenschaub.github.io"
 teaser                   :  # filename of teaser fallback teaser image placed in /images/, .e.g. "500x300.png"
@@ -80,10 +80,10 @@ analytics:
 
 # Site Author
 author:
-  name             : "Patrick Rockenschaub"
-  avatar           : "profile.png"
-  bio              : "A.v.Humboldt postdoctoral fellow"
-  location         : "Berlin"
+  name             : 
+  avatar           : "portrait.jpg"
+  bio              : "postdoctoral fellow | med stats enthusiast | learning machine learner | dad"
+  location         : "Berlin, Germany"
   employer         :
   pubmed           : 
   googlescholar    : "https://scholar.google.com/citations?user=1BEClqkAAAAJ&hl=en"
@@ -109,7 +109,7 @@ author:
   stackoverflow    : # http://stackoverflow.com/users/123456/username
   steam            :
   tumblr           :
-  twitter          : "https://twitter.com/p_rocken"
+  twitter          : "p_rocken"
   vine             :
   weibo            :
   xing             :
