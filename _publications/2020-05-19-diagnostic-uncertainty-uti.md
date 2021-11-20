@@ -6,11 +6,11 @@ excerpt: 'Background: Suspected urinary tract infection (UTI) syndromes are a co
 date: 2020-05-19
 venue: 'BMC Emerg. Med.'
 paperurl: 'http://dx.doi.org/10.1186/s12873-020-00333-y'
-citation: 'Shallcross LJ, Rockenschaub P, McNulty D, Freemantle N, Hayward A, Gill MJ. Diagnostic uncertainty and urinary tract infection in the emergency department: a cohort study from a UK hospital. BMC Emerg Med. 2020;20: 40.'
+citation: 'Shallcross LJ, <b>Rockenschaub P</b>, McNulty D, Freemantle N, Hayward A, Gill MJ. Diagnostic uncertainty and urinary tract infection in the emergency department: a cohort study from a UK hospital. <i>BMC Emerg Med.</i> 2020;20: 40.'
 ---
 
 <a href='http://dx.doi.org/10.1186/s12873-020-00333-y'>Download paper here</a>
 
 Background: Suspected urinary tract infection (UTI) syndromes are a common reason for empirical antibiotics to be prescribed in the Emergency Department (ED), but differentiating UTI from other conditions with a similar presentation is challenging. We investigated how often an ED diagnosis of UTI is confirmed clinically/microbiologically, and described conditions which present as UTI syndromes. Methods: Observational study using electronic health records from patients who attended the ED with suspected UTI and had a urine sample submitted for culture. We compared the ED diagnosis to diagnosis at discharge from hospital (ICD-10 codes), and estimated the proportion of cases with clinical/microbiological evidence of UTI. Results: Two hundred eighty nine patients had an ED diagnosis of UTI syndrome comprising: lower UTI (191), pyelonephritis (56) and urosepsis (42). In patients admitted to hospital with an ED diagnosis of lower UTI, pyelonephritis or urosepsis, clinical/microbiological evidence of UTI was lacking in 61/103, 33/54 and 31/42 cases respectively. The ED diagnosis was concordant with the main reason for admission in less than 40% of patients with UTI syndromes, and antibiotics were stopped within 72 h in 37/161 patients. Conclusions: Clinical/microbiological evidence of UTI was lacking in 60-70% of patients, suggesting scope to revise empirical prescribing decisions for UTI syndromes in light of microbial culture and clinical progression.
 
-Recommended citation: Shallcross LJ, Rockenschaub P, McNulty D, Freemantle N, Hayward A, Gill MJ. Diagnostic uncertainty and urinary tract infection in the emergency department: a cohort study from a UK hospital. BMC Emerg Med. 2020;20: 40.
+Recommended citation: Shallcross LJ, <b>Rockenschaub P</b>, McNulty D, Freemantle N, Hayward A, Gill MJ. Diagnostic uncertainty and urinary tract infection in the emergency department: a cohort study from a UK hospital. <i>BMC Emerg Med.</i> 2020;20: 40.
