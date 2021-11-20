@@ -74,6 +74,13 @@
   }
 }
 
+.archive__item-citation {
+    text-decoration: none;
+    color: black;
+    font-weight: normal;
+    font-size: large;
+}
+
 .archive__item:hover {
   .archive__item-teaser {
     box-shadow: 0 0 10px rgba(#000, 0.25);

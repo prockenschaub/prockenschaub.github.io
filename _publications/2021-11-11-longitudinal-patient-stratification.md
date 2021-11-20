@@ -6,7 +6,7 @@ excerpt: 'The increase in availability of longitudinal electronic health record 
 date: 2021-11-11
 venue: 'arXiv'
 paperurl: 'http://arxiv.org/abs/2111.06152'
-citation: 'Carr O, Javer A, <b>Rockenschaub P&#8224;</b>, Parsons O, Durichen R. Longitudinal patient stratification of electronic health records with flexible adjustment for clinical outcomes. <i>arXiv</i> [cs.LG]. 2021.
+citation: 'Carr O, Javer A, <b>Rockenschaub P&#8224;</b>, Parsons O, Durichen R. Longitudinal patient stratification of electronic health records with flexible adjustment for clinical outcomes. <i>arXiv</i>. 2021.'
 ---
 
 <a href='http://arxiv.org/abs/2111.06152'>Download paper here</a>
