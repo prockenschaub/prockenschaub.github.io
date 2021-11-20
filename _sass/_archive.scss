@@ -75,10 +75,13 @@
 }
 
 .archive__item-citation {
-    text-decoration: none;
-    color: black;
     font-weight: normal;
     font-size: large;
+	
+	a {
+		text-decoration: none;
+		color: black;
+	}
 }
 
 .archive__item:hover {
