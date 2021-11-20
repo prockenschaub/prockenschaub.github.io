@@ -82,12 +82,12 @@ analytics:
 author:
   name             : 
   avatar           : "portrait.jpg"
-  bio              : "postdoctoral fellow | med stats enthusiast | learning machine learner | dad"
+  bio              : "Humboldt Research Fellow | Stats enthusiast | Dad"
   location         : "Berlin, Germany"
-  employer         :
+  employer         : "Charité Lab for AI in Medicine"
   pubmed           : 
   googlescholar    : "https://scholar.google.com/citations?user=1BEClqkAAAAJ&hl=en"
-  email            :
+  email            : "rockenschaub.patrick@gmail.com"
   researchgate     :  # example: "https://www.researchgate.net/profile/yourprofile"
   uri              :
   bitbucket        :
@@ -102,7 +102,7 @@ author:
   instagram        :
   impactstory      : #"https://profiles.impactstory.org/u/xxxx-xxxx-xxxx-xxxx"
   lastfm           :
-  linkedin         :
+  linkedin         : "https://www.linkedin.com/in/patrick-rockenschaub-27383756/"
   orcid            : "https://orcid.org/0000-0002-6499-7933"
   pinterest        :
   soundcloud       :
