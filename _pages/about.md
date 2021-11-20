@@ -12,6 +12,7 @@ My research focus is on creating and deploying predictive models that derive ins
 
 Education
 ======
+
 PhD in Health Data Science, University College London, 2021
 
 MSc in Health Data Science, University College London, 2016
