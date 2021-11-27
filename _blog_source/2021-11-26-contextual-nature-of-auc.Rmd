@@ -15,14 +15,6 @@ tags:
   - external validation
 ---
 
-```{r setup, message=FALSE}
-
-library(MASS)
-library(tidyverse)
-library(tidymodels)
-
-```
-
 The area under the receiver operating characteristic (AUC) is arguably among 
 the most frequently used measures of classification performance. Unlike other 
 common measures like sensitivity, specificity, or accuracy, the AUC does not 
@@ -71,6 +63,14 @@ moderate effect (odds ratio per standard deviation =  exp(0.3) = 1.35).
 Any influence by other, unmeasured factors is simulated by drawing from a 
 Bernoulli distribution with a probability defined by sex, age, blood pressure, 
 and cholesterol.
+
+```{r setup, message=FALSE}
+
+library(MASS)
+library(tidyverse)
+library(tidymodels)
+
+```
 
 ```{r generate-data}
 
