@@ -7,6 +7,7 @@ output:
     preserve_yaml: TRUE
 knit: (function(inputFile, encoding) {
   rmarkdown::render(inputFile, encoding = encoding, output_dir = "../_posts") })
+excerpt: "The area under the receiver operating characteristic (AUC) is arguably among the most frequently used measures of classification performance. In this post, I look at how performance estimated by AUC changes based on the covariate distribution in the evaluation set, even if we know the true model. This complicates the interpretation of external validation results if a change in this distribution is possible or even likely."
 permalink: /posts/2021/11/contextual-nature-of-auc/
 tags:
   - auc
