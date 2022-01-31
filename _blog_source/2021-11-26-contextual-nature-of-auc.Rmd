@@ -44,7 +44,7 @@ extreme observations.
 
 In this post, I want to take a closer look at a feature of AUC that --- at least
 in my experience --- is often overlooked when evaluating models in an external 
-test sets: the dependence of the AUC on the distribution of variables in the 
+test set: the dependence of the AUC on the distribution of variables in the 
 test set. We will see that this can lead to considerable changes in estimated 
 AUC even if our model is actually correct, and make it harder to disentangle 
 changes in performance due to model misspecification from changes in performance
