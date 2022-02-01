@@ -1,14 +1,14 @@
 ---
 title: "Optimism-adjusted bootstrap with tidymodels"
-date: "10/01/2022"
+date: "26/01/2022"
 output:
   bookdown::markdown_document2:
     variant: gfm
     preserve_yaml: TRUE
 knit: (function(inputFile, encoding) {
   rmarkdown::render(inputFile, encoding = encoding, output_dir = "../_posts") })
-excerpt: ""
-permalink: /posts/2022/01/mice-for-predictions/
+excerpt: "The optimism-adjusted bootstrap is a resampling technique used to obtain unbiased estimates of future prediction model performance. Although popular in biomedical sciences, it is not currently implemented in the R tidymodels ecosystem. This post introduces the method and provides a step-by-step implementation with tidymodels."
+permalink: /posts/2022/01/implementing-optimism-adjusted-bootstrap-in-tidymodels/
 tags:
   - R language
   - validation 
@@ -266,21 +266,23 @@ In order to get a good comparison of methods, we won't stick with a single train
 
 ```{r nested-evaluation}
 
-outer <- vfold_cv(ames, v = 5, repeats = 1)
+outer <- vfold_cv(ames, v = 5, repeats = 2)
 
 outer <- outer %>% 
   mutate(
     opt = splits %>% 
-      map(~ calculate_optimism_adjusted(training(.), formula, preproc, 10L)),
+      map(~ calculate_optimism_adjusted(training(.), formula, preproc, 200L)),
     cv = splits %>% 
-      map(~ calculate_repeated_cv(training(.), formula, preproc, repeats = 2L)), 
+      map(~ calculate_repeated_cv(training(.), formula, preproc, repeats = 20L)), 
     bs = splits %>% 
-      map(~ calculate_standard_bs(training(.), formula, preproc, 10L)), 
+      map(~ calculate_standard_bs(training(.), formula, preproc, 200L)), 
     test = splits %>% 
       map_dbl(~ eval_test(training(.), testing(.), formula, preproc))
   )
 
 ```
+
+We can see below that in this example, all resampling methods perform more or less similar. Notably, both bootstrap-based methods have narrower confidence intervals. This was to be expected, as cross-validation typically has high variance. This increased precision is traded for a risk of bias in bootstrap, which is usually pessimistic as with the standard bootstrap in this example. OAB here seems to have a slight optimistic bias. While its mean is similar to cross-validation, its increased confidence represented by narrower confidence interval means that the average test performance over the nested runs is not contained in the approximate confidence limits. However, all resampling methods give us a more accurate estimate of likely future model performance than the apparent performance of `r round(perf_orig, 3)`.
 
 
 ```{r inspect-results}
@@ -291,11 +293,10 @@ format_results <- function(outer, method) {
   outer %>% 
     unnest(!!method) %>% 
     summarise(
-      rsmpl_lower = mean(mean) - 2 * mean(std_err),
+      rsmpl_lower = mean(mean - 2 * std_err),
       rsmpl_mean  = mean(mean), 
-      rsmpl_upper = mean(mean) + 2 * mean(std_err), 
-      test_mean   = mean(test),
-      p_within    = mean(rsmpl_lower < test_mean & test_mean < rsmpl_upper)
+      rsmpl_upper = mean(mean + 2 * std_err), 
+      test_mean   = mean(test)
     )
 }
 

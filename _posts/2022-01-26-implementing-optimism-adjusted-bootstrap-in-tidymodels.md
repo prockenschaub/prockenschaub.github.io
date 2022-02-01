@@ -1,3 +1,23 @@
+---
+title: "Optimism-adjusted bootstrap with tidymodels"
+date: "26/01/2022"
+output:
+  bookdown::markdown_document2:
+    variant: gfm
+    preserve_yaml: TRUE
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../_posts") })
+excerpt: "The optimism-adjusted bootstrap is a resampling technique used to obtain unbiased estimates of future prediction model performance. Although popular in biomedical sciences, it is not currently implemented in the R tidymodels ecosystem. This post introduces the method and provides a step-by-step implementation with tidymodels."
+permalink: /posts/2022/01/implementing-optimism-adjusted-bootstrap-in-tidymodels/
+tags:
+  - R language
+  - validation 
+  - predictive modelling
+editor_options: 
+  chunk_output_type: console
+bibliography: 2022-01-26_references.bib
+---
+
 It is well known that prediction models have a tendency to overfit to
 the training data, especially if we only have a limited amount of
 training data. While performance of such overfit models appears high
@@ -40,8 +60,8 @@ ecosystem (Kuhn and Silge 2022). This post will therefore provide a
 step-by-step guide to doing OAD with
 [*tidymodels*](https://cran.r-project.org/web/packages/tidymodels/).
 
-Optimism-adjusted bootstrap
-===========================
+1 Optimism-adjusted bootstrap
+=============================
 
 Like other resampling schemes, the OAD aims to avoid overly optimistic
 estimation of model performance during internal validation — i.e.,
@@ -90,8 +110,8 @@ The following sections will apply this basic idea to the Ames housing
 dataset and compare estimates derived via OAB to repeated
 cross-validation and standard bootstrap.
 
-The Ames data set
-=================
+2 The Ames data set
+===================
 
 The Ames data set contains information on 2,930 properties in Ames,
 Iowa, and contains 74 variables including the number of bedrooms,
@@ -104,8 +124,46 @@ found in (Kuhn and Silge 2022).
 ``` r
 set.seed(123)
 library("tidyverse")
-library("tidymodels")
+```
 
+    ## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
+
+    ## v ggplot2 3.3.5     v purrr   0.3.4
+    ## v tibble  3.1.6     v dplyr   1.0.7
+    ## v tidyr   1.1.4     v stringr 1.4.0
+    ## v readr   2.1.0     v forcats 0.5.1
+
+    ## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+    ## x dplyr::filter() masks stats::filter()
+    ## x dplyr::lag()    masks stats::lag()
+
+``` r
+library("tidymodels")
+```
+
+    ## Registered S3 method overwritten by 'tune':
+    ##   method                   from   
+    ##   required_pkgs.model_spec parsnip
+
+    ## -- Attaching packages -------------------------------------- tidymodels 0.1.4 --
+
+    ## v broom        0.7.10     v rsample      0.1.1 
+    ## v dials        0.0.10     v tune         0.1.6 
+    ## v infer        1.0.0      v workflows    0.2.4 
+    ## v modeldata    0.1.1      v workflowsets 0.1.0 
+    ## v parsnip      0.1.7      v yardstick    0.0.9 
+    ## v recipes      0.1.17
+
+    ## -- Conflicts ----------------------------------------- tidymodels_conflicts() --
+    ## x scales::discard() masks purrr::discard()
+    ## x dplyr::filter()   masks stats::filter()
+    ## x recipes::fixed()  masks stringr::fixed()
+    ## x dplyr::lag()      masks stats::lag()
+    ## x yardstick::spec() masks readr::spec()
+    ## x recipes::step()   masks stats::step()
+    ## * Use tidymodels_prefer() to resolve common conflicts.
+
+``` r
 data(ames)
 dim(ames)
 ```
@@ -117,13 +175,13 @@ ames[1:5, 1:5]
 ```
 
     ## # A tibble: 5 x 5
-    ##   MS_SubClass                         MS_Zoning                Lot_Frontage Lot_Area Street
-    ##   <fct>                               <fct>                           <dbl>    <int> <fct> 
-    ## 1 One_Story_1946_and_Newer_All_Styles Residential_Low_Density           141    31770 Pave  
-    ## 2 One_Story_1946_and_Newer_All_Styles Residential_High_Density           80    11622 Pave  
-    ## 3 One_Story_1946_and_Newer_All_Styles Residential_Low_Density            81    14267 Pave  
-    ## 4 One_Story_1946_and_Newer_All_Styles Residential_Low_Density            93    11160 Pave  
-    ## 5 Two_Story_1946_and_Newer            Residential_Low_Density            74    13830 Pave
+    ##   MS_SubClass                         MS_Zoning     Lot_Frontage Lot_Area Street
+    ##   <fct>                               <fct>                <dbl>    <int> <fct> 
+    ## 1 One_Story_1946_and_Newer_All_Styles Residential_~          141    31770 Pave  
+    ## 2 One_Story_1946_and_Newer_All_Styles Residential_~           80    11622 Pave  
+    ## 3 One_Story_1946_and_Newer_All_Styles Residential_~           81    14267 Pave  
+    ## 4 One_Story_1946_and_Newer_All_Styles Residential_~           93    11160 Pave  
+    ## 5 Two_Story_1946_and_Newer            Residential_~           74    13830 Pave
 
 For this exercise, we try to predict sale prices within the dataset. To
 keep preprocessing simple, we limit the predictors to only numeric
@@ -148,15 +206,15 @@ train <- training(train_test_split)
 test <- testing(train_test_split)
 ```
 
-Optimism-adjusted bootstrap with *tidymodels*
-=============================================
+3 Optimism-adjusted bootstrap with *tidymodels*
+===============================================
 
 Now that we have set up the data, lets look into how we can build a
 linear regression model and validate it via OAB. We proceed according to
 the steps described above.
 
-Step 1: Calculate apparent perforamnce
---------------------------------------
+3.1 Step 1: Calculate apparent perforamnce
+------------------------------------------
 
 To start, we simply fit and evaulate our model *M* on the original
 training data *S* (note that we also apply preprocessing, therefore we
@@ -176,8 +234,8 @@ perf_orig
 
     ## [1] 0.1693906
 
-Step 2: Create bootstrapped samples
------------------------------------
+3.2 Step 2: Create bootstrapped samples
+---------------------------------------
 
 After obtaining *M* and *R*(*M*, *S*), we now produce a set of bootstrap
 samples to estimate the amount of optimism in this performance estiamte.
@@ -219,8 +277,8 @@ bs %>% slice((n()-5):n())
     ## 5 <split [2197/805]> Bootstrap199
     ## 6 <split [2197/804]> Bootstrap200
 
-Step 3: Fit bootstrapped models and calculate their apparent performance
-------------------------------------------------------------------------
+3.3 Step 3: Fit bootstrapped models and calculate their apparent performance
+----------------------------------------------------------------------------
 
 We now use the bootstrap data.frame `bs` to preprocess each sample
 *S*<sup>\*</sup> individually, fit a linear regression *M*<sup>\*</sup>
@@ -240,8 +298,8 @@ bs <- bs %>%
   )
 ```
 
-Step 4: Evaluate on the original training data
-----------------------------------------------
+3.4 Step 4: Evaluate on the original training data
+--------------------------------------------------
 
 Since we stored the fitted models *M*<sub>*i*</sub><sup>\*</sup> in a
 column of the data.frame, we can easily re-use them to predict values
@@ -261,8 +319,8 @@ bs <- bs %>%
   )
 ```
 
-Step 5: Estimate the optimism
------------------------------
+3.5 Step 5: Estimate the optimism
+---------------------------------
 
 The amount of optimism in our apparent estimate is now simply estimated
 by the differences between apparent and test performance in each
@@ -275,8 +333,8 @@ bs <- bs %>%
   )
 ```
 
-Steps 6-7: Adjust for optimism
-------------------------------
+3.6 Steps 6-7: Adjust for optimism
+----------------------------------
 
 We already repeated this procedure in parallel for 200 samples,
 therefore step 6 is fulfilled. In order to get a single, final estimate,
@@ -295,8 +353,8 @@ std_opt <- sd(bs$optim)
 
     ## [1] 0.1782025 0.1799199 0.1816372
 
-External validation
--------------------
+3.7 External validation
+-----------------------
 
 Remember that we set aside a quarter of the data for external validation
 (external is a bit of misnomer here but more on that later). We can now
@@ -313,8 +371,8 @@ rmse_vec(preproc_test$Sale_Price, preds_test$.pred)
 
     ## [1] 0.1855153
 
-Putting everything together
-===========================
+4 Putting everything together
+=============================
 
 Using what we learned above, we can create a single function
 `calculate_optimism_adjusted()` that performs all steps and returns the
@@ -386,8 +444,8 @@ calculate_standard_bs <- function(train_data, formula, preproc, n_resamples = 10
 }
 ```
 
-Comparison of validation methods
-================================
+5 Comparison of validation methods
+==================================
 
 In this last section, we will compare the results obtained from OAB to
 two other well-known validation methods: repeated 10-fold
@@ -416,20 +474,33 @@ validation in another cross-validation loop, i.e., we treat the held-out
 set of an outer cross-validation as the “external” test set.
 
 ``` r
-outer <- vfold_cv(ames, v = 5, repeats = 1)
+outer <- vfold_cv(ames, v = 5, repeats = 2)
 
 outer <- outer %>% 
   mutate(
     opt = splits %>% 
-      map(~ calculate_optimism_adjusted(training(.), formula, preproc, 10L)),
+      map(~ calculate_optimism_adjusted(training(.), formula, preproc, 200L)),
     cv = splits %>% 
-      map(~ calculate_repeated_cv(training(.), formula, preproc, repeats = 2L)), 
+      map(~ calculate_repeated_cv(training(.), formula, preproc, repeats = 20L)), 
     bs = splits %>% 
-      map(~ calculate_standard_bs(training(.), formula, preproc, 10L)), 
+      map(~ calculate_standard_bs(training(.), formula, preproc, 200L)), 
     test = splits %>% 
       map_dbl(~ eval_test(training(.), testing(.), formula, preproc))
   )
 ```
+
+We can see below that in this example, all resampling methods perform
+more or less similar. Notably, both bootstrap-based methods have
+narrower confidence intervals. This was to be expected, as
+cross-validation typically has high variance. This increased precision
+is traded for a risk of bias in bootstrap, which is usually pessimistic
+as with the standard bootstrap in this example. OAB here seems to have a
+slight optimistic bias. While its mean is similar to cross-validation,
+its increased confidence represented by narrower confidence interval
+means that the average test performance over the nested runs is not
+contained in the approximate confidence limits. However, all resampling
+methods give us a more accurate estimate of likely future model
+performance than the apparent performance of 0.169.
 
 ``` r
 format_results <- function(outer, method) {
@@ -438,11 +509,10 @@ format_results <- function(outer, method) {
   outer %>% 
     unnest(!!method) %>% 
     summarise(
-      rsmpl_lower = mean(mean) - 2 * mean(std_err),
+      rsmpl_lower = mean(mean - 2 * std_err),
       rsmpl_mean  = mean(mean), 
-      rsmpl_upper = mean(mean) + 2 * mean(std_err), 
-      test_mean   = mean(test),
-      p_within    = mean(rsmpl_lower < test_mean & test_mean < rsmpl_upper)
+      rsmpl_upper = mean(mean + 2 * std_err), 
+      test_mean   = mean(test)
     )
 }
 
@@ -454,35 +524,23 @@ tibble(method = c("opt", "cv", "bs")) %>%
   ))
 ```
 
-    ## # A tibble: 3 x 6
-    ##   method rsmpl_lower rsmpl_mean rsmpl_upper test_mean p_within
-    ##   <chr>        <dbl>      <dbl>       <dbl>     <dbl>    <dbl>
-    ## 1 opt          0.174      0.180       0.187     0.181        1
-    ## 2 cv           0.160      0.177       0.194     0.181        1
-    ## 3 bs           0.173      0.183       0.193     0.181        1
+    ## # A tibble: 3 x 5
+    ##   method rsmpl_lower rsmpl_mean rsmpl_upper test_mean
+    ##   <chr>        <dbl>      <dbl>       <dbl>     <dbl>
+    ## 1 opt          0.176      0.178       0.179     0.180
+    ## 2 cv           0.172      0.177       0.182     0.180
+    ## 3 bs           0.180      0.182       0.185     0.180
 
-<div id="refs" class="references csl-bib-body hanging-indent">
 
-<div id="ref-Harrell2015-ws" class="csl-entry">
+
+6 References
+==================================
 
 Harrell, Frank E, Jr. 2015. *Regression Modeling Strategies: With
 Applications to Linear Models, Logistic and Ordinal Regression, and
 Survival Analysis*. Springer, Cham.
 
-</div>
-
-<div id="ref-Kuhn2022-al" class="csl-entry">
-
-Kuhn, Max, and Julia Silge. 2022. *Tidy Modeling with r*.
-<https://www.tmwr.org/>.
-
-</div>
-
-<div id="ref-Steyerberg2019-yc" class="csl-entry">
+Kuhn, Max, and Julia Silge. 2022. *Tidy Modeling with r*. 
 
 Steyerberg, Ewout W. 2019. *Clinical Prediction Models: A Practical
 Approach to Development, Validation, and Updating*. Springer, Cham.
-
-</div>
-
-</div>
