@@ -112,9 +112,9 @@ coords <- list(x = c(T = -1, A = 1, D = 0, Y = 0, S = 1),
                 y = c(T = 0, A = 0, D = 1, Y = -1, S = 1))
 
 dag <- dagify(
-  T ~ A,
-  C ~ A + S,
-  Y ~ T + C,
+  T ~ D,
+  A ~ D + S,
+  Y ~ T + A,
   coords = coords
 )
 
@@ -132,11 +132,9 @@ ggplot(dag, aes(x, y, xend = xend, yend = yend)) +
   theme_dag()
 ```
 
-    ## Warning: Removed 1 rows containing missing values (geom_dag_text).
-
 <div class="figure" style="text-align: center">
 
-<img src="G:\My Drive\Data Science\prockenschaub.github.io\_posts\2022-05-09-stable-predictions_files/figure-gfm/example-dag-1.png" alt="Directed acyclical graph specifying the causal relationships between a prediction target T, observed predictors A and Y, and an unobserved confounder D. The square node S represents a auxiliary selection variable that indicates variables that are mutable, i.e., change across different environments."  />
+<img src="/_posts/2022-05-09-stable-predictions_files/figure-gfm/example-dag-1.png" />
 <p class="caption">
 Figure 2.1: Directed acyclical graph specifying the causal relationships
 between a prediction target T, observed predictors A and Y, and an
@@ -273,9 +271,10 @@ relationships and Gaussian noise for all variables, giving the following
 structural equations:
 
 $$
-
-D N(0, ^2) \\ T N(\_1D, ^2) \\ A N(\_2^eD, ^2) \\ Y N(\_3T + \_4A, ^2)  
-
+D \\sim N(0, \\sigma^2) \\\\
+T \\sim N(\\beta\_1D, \\sigma^2) \\\\
+A \\sim N(\\beta\_2^eD, \\sigma^2) \\\\
+Y \\sim N(\\beta\_3T + \\beta\_4A, \\sigma^2) 
 $$
 
 You might have noticed the superscript *e* in
@@ -397,7 +396,7 @@ ggplot(results, aes(x = beta[2] + devs)) +
 
 <div class="figure" style="text-align: center">
 
-<img src="G:\My Drive\Data Science\prockenschaub.github.io\_posts\2022-05-09-stable-predictions_files/figure-gfm/run-simulations-1.png" alt="Mean squared error of all models across a range of test environments that differ in the coefficient for the relationship D -&gt; A. The vertical grey line indicates the training environment."  />
+<img src="/_posts/2022-05-09-stable-predictions_files/figure-gfm/run-simulations-1.png" />
 <p class="caption">
 Figure 4.1: Mean squared error of all models across a range of test
 environments that differ in the coefficient for the relationship D -&gt;

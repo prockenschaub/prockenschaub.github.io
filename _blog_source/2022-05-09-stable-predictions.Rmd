@@ -61,9 +61,9 @@ coords <- list(x = c(T = -1, A = 1, D = 0, Y = 0, S = 1),
                 y = c(T = 0, A = 0, D = 1, Y = -1, S = 1))
 
 dag <- dagify(
-  T ~ A,
-  C ~ A + S,
-  Y ~ T + C,
+  T ~ D,
+  A ~ D + S,
+  Y ~ T + A,
   coords = coords
 )
 
@@ -119,12 +119,10 @@ What else can we do if we do not want or can't collect data on `D`. One final op
 Up to now, we have used theory to determine whether a particular model would result in a stable predictor. In this final section, we simulate data for Figure \@ref(fig:example-dag) to test our conclusions and confirm the (lack of) stability of all models considered above. Following the example in [Subbaswamy and Saria (2018)](https://arxiv.org/abs/1808.03253), we use simple linear relationships and Gaussian noise for all variables, giving the following structural equations:
 
 $$
-
 D \sim N(0, \sigma^2) \\
 T \sim N(\beta_1D, \sigma^2) \\
 A \sim N(\beta_2^eD, \sigma^2) \\
-Y \sim N(\beta_3T + \beta_4A, \sigma^2) \
-
+Y \sim N(\beta_3T + \beta_4A, \sigma^2) 
 $$
 
 You might have noticed the superscript $e$ in $\beta^e_2$. We use this superscript to indicate that the coefficient depends on the environment $e \in \mathcal{E} \}$ where $\mathcal{E}$ is the set of all possible environments. Since the value of the coefficient depends on the environment, `A` is mutable (note that we could have chosen other ways to make `A` mutable, for example by including another unobserved variable that influences `A` and changes across environments). All other coefficients are constant across environments, i.e., $\beta_i^e = \beta_i$ for $i \in \{1, 3, 4 \}$. Finally, we set a uniform noise $\sigma^2=0.1$ for all variables. We combine this into a function that draws a sample of size $n$.
