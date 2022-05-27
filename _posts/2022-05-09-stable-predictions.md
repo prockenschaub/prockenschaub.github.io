@@ -5,8 +5,9 @@ output:
   bookdown::markdown_document2:
     variant: gfm
     preserve_yaml: TRUE
+    pandoc_args: "--mathjax"
 knit: (function(inputFile, encoding) {
-  rmarkdown::render(inputFile, encoding = encoding, output_dir = "../_posts") })
+  rmarkdown::render(inputFile, encoding = encoding, clean=FALSE, run_pandoc=TRUE) })
 excerpt: "Stability is a desirable property of clinical prediction models that can allow us to transfer models to new environments such as different hospitals or countries. In this post, we will look at how Directed Acyclic Graphs and causal reasoning can help us anticipte if a given prediction model is stable when moved between environments."
 permalink: /posts/2022/05/stable-predictions/
 tags:
@@ -16,12 +17,6 @@ tags:
 editor_options: 
   chunk_output_type: console
 ---
-
-``` r
-library(tidyverse)
-library(ggdag)
-library(ggthemes)
-```
 
 Machine learning for prediction of likely patient outcomes has been a
 hot topic for several years now. The increasing collection of routine
@@ -80,6 +75,12 @@ Here’s what I assume you to know:
     and
     [here](https://www.andrewheiss.com/research/chapters/heiss-causal-inference-2021/10-causal-inference.pdf).
 
+``` r
+library(tidyverse)
+library(ggdag)
+library(ggthemes)
+```
+
 2 Model stability
 =================
 
@@ -134,7 +135,7 @@ ggplot(dag, aes(x, y, xend = xend, yend = yend)) +
 
 <div class="figure" style="text-align: center">
 
-<img src="/_posts/2022-05-09-stable-predictions_files/figure-gfm/example-dag-1.png" />
+<img src="2022-05-09-stable-predictions_files/figure-gfm/example-dag-1.png" alt="Directed acyclical graph specifying the causal relationships between a prediction target T, observed predictors A and Y, and an unobserved confounder D. The square node S represents a auxiliary selection variable that indicates variables that are mutable, i.e., change across different environments."  />
 <p class="caption">
 Figure 2.1: Directed acyclical graph specifying the causal relationships
 between a prediction target T, observed predictors A and Y, and an
@@ -270,11 +271,13 @@ above. Following the example in [Subbaswamy and Saria
 relationships and Gaussian noise for all variables, giving the following
 structural equations:
 
-$$
-D \\sim N(0, \\sigma^2) \\\\
-T \\sim N(\\beta\_1D, \\sigma^2) \\\\
-A \\sim N(\\beta\_2^eD, \\sigma^2) \\\\
-Y \\sim N(\\beta\_3T + \\beta\_4A, \\sigma^2) 
+$$ 
+\begin{aligned} 
+D &\sim N(0, \sigma^2) \\ 
+T &\sim N(\beta_1D, \sigma^2) \\ 
+A &\sim N(\beta_2^eD, \sigma^2) \\ 
+Y &\sim N(\beta_3T + \beta_4A, \sigma^2) 
+\end{aligned} 
 $$
 
 You might have noticed the superscript *e* in
@@ -396,7 +399,7 @@ ggplot(results, aes(x = beta[2] + devs)) +
 
 <div class="figure" style="text-align: center">
 
-<img src="/_posts/2022-05-09-stable-predictions_files/figure-gfm/run-simulations-1.png" />
+<img src="2022-05-09-stable-predictions_files/figure-gfm/run-simulations-1.png" alt="Mean squared error of all models across a range of test environments that differ in the coefficient for the relationship D -&gt; A. The vertical grey line indicates the training environment."  />
 <p class="caption">
 Figure 4.1: Mean squared error of all models across a range of test
 environments that differ in the coefficient for the relationship D -&gt;
